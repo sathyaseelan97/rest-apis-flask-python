@@ -8,6 +8,7 @@ from flask_smorest import Api
 from db import db
 import models
 
+
 from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
 from resources.tag import blp as TagBlueprint
