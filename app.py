@@ -16,13 +16,15 @@ from resources.user import blp as UserBlueprint
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from blocklist import BLOCKLIST
+from dotenv import load_dotenv
 
 
 #import models need to be done before the SQL Alchemy extension because the models consists of the table structure
 
 def create_app(db_url=None):
     app = Flask(__name__)
-
+    #Loading the environment variables for database url
+    load_dotenv()
     #Registering blueprints with API
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Stores REST API"
@@ -39,7 +41,7 @@ def create_app(db_url=None):
         
     #The JWT secret keys are used for signing the JWTs
     #Secret keys should be kept safe and it would be a long.random value
-    #app.config["JWT_SECRET_KEY"] = "Sathya"
+    #app.config["JWT_SECRET_KEY"] = "Test"
     #long random secret key
     #secrets.SystemRandom().getrandbits(128)
     app.config["JWT_SECRET_KEY"] = "323519564080472983615573373243762478919"
