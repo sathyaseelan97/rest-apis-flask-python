@@ -1,5 +1,5 @@
 import os 
-import secrets
+import redis
 from flask import Flask,jsonify
 
 #connects the flask-smorest extension to flask app
@@ -8,7 +8,7 @@ from flask_smorest import Api
 from db import db
 import models
 
-
+from rq import Queue
 from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
 from resources.tag import blp as TagBlueprint
@@ -25,7 +25,11 @@ def create_app(db_url=None):
     app = Flask(__name__)
     #Loading the environment variables for database url
     load_dotenv()
-    #Registering blueprints with API
+    #Defining queue connection and setting up queues
+    connection = redis.from_url(os.getenv("REDIS_URL"))
+    #"emails" is the name of the queue 
+    app.queue = Queue("emails",connection=connection)
+    #Registering blueprints with api
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Stores REST API"
     app.config["API_VERSION"] = "v1"

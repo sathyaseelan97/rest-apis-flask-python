@@ -53,8 +53,12 @@ class TagAndItemSchema(Schema):
 
 class UserSchema(Schema):
     #dump_only=True is given for fields which are not received from the users.
+    #This Schema is used only for '/login'
     id = fields.Int(dump_only=True)
     username = fields.Str(required=True)
     #load_only=True is given for fields which are not to be returned when the API is called
     #Also the password should never be sent to the user
     password = fields.Str(required=True,load_only=True)
+
+class UserRegisterSchema(UserSchema):
+    email = fields.Str(required=True)
